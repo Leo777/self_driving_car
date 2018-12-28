@@ -6,7 +6,13 @@ def draw(x1,x2):
  
 def sigmoid(score):
   return 1/(1+np.exp(-score))
-  
+
+def calculate_error(line_parameters, points, y):
+    number_of_points = points.shape[0]
+    probabilities = sigmoid(points*line_parameters)
+    cross_entropy = -(1/number_of_points)*(np.log(probabilities).T*y + np.log(1-probabilities).T*(1-y))
+    return cross_entropy
+
 n_pts=100
 np.random.seed(0)
 bias= np.ones(n_pts)
@@ -19,19 +25,23 @@ w1=-0.2
 w2=-0.35
 b=3.5
 
-line_paramters = np.matrix([w1,w2,b]).T
+line_parameters = np.matrix([w1,w2,b]).T
+
 x1=np.array([bottom_region[:,0].min(), top_region[:,0].max()])
 
-print(bottom_region[:,0].min())
-print(top_region[:,0].max())
+
 x2= -b/w2 + (x1*(-w1/w2))
-print(x2)
+y=np.array([np.zeros(n_pts), np.ones(n_pts)]).reshape(n_pts*2, 1)
  
-linear_combination= all_points*line_paramters 
+linear_combination= all_points*line_parameters 
 probabilities= sigmoid(linear_combination)
 # print(probabilities)    
+
+print(calculate_error(line_parameters,all_points,y))
+
 _, ax= plt.subplots(figsize=(4,4))
 ax.scatter(top_region[:,0], top_region[:,1], color='r')
 ax.scatter(bottom_region[:,0], bottom_region[:,1], color='b')
 draw(x1,x2)
 plt.show()
+
