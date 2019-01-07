@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
  
 def draw(x1,x2):
   ln=plt.plot(x1,x2)
+  plt.pause(0.0001)
+  ln[0].remove()
  
 def sigmoid(score):
   return 1/(1+np.exp(-score))
@@ -40,7 +42,8 @@ line_parameters = np.matrix([np.zeros(3)]).T
 x1=np.array([bottom_region[:,0].min(), top_region[:,0].max()])
 
 
-x2= -b/w2 + (x1*(-w1/w2))
+# x2= -b/w2 + (x1*(-w1/w2))
+#y means array of labels 0 or 1
 y=np.array([np.zeros(n_pts), np.ones(n_pts)]).reshape(n_pts*2, 1)
  
 linear_combination= all_points*line_parameters 
@@ -52,6 +55,7 @@ print(calculate_error(line_parameters,all_points,y))
 _, ax= plt.subplots(figsize=(4,4))
 ax.scatter(top_region[:,0], top_region[:,1], color='r')
 ax.scatter(bottom_region[:,0], bottom_region[:,1], color='b')
-draw(x1,x2)
+gradient_descent(line_parameters,all_points,y,0.06)
+# draw(x1,x2)
 plt.show()
 
