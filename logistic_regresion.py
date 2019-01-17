@@ -5,7 +5,7 @@ def draw(x1,x2):
   ln=plt.plot(x1,x2)
   plt.pause(0.0001)
   ln[0].remove()
- 
+
 def sigmoid(score):
   return 1/(1+np.exp(-score))
 
@@ -27,7 +27,7 @@ def gradient_descent(line_parameters, points, y, alpha):
         b = line_parameters.item(2)
         x1 = np.array([points[:,0].min(), points[:,0].max()])
         x2 = - b / w2 + x1 * (- w1 / w2)
-        draw(x1,x2)
+    draw(x1,x2)
 
 n_pts=100
 np.random.seed(0)
@@ -44,6 +44,10 @@ x1=np.array([bottom_region[:,0].min(), top_region[:,0].max()])
 
 # x2= -b/w2 + (x1*(-w1/w2))
 #y means array of labels 0 or 1
+# x1=np.array([bottom_region[:,0].min(), top_region[:,0].max()])
+#
+#
+# x2= -b/w2 + (x1*(-w1/w2))
 y=np.array([np.zeros(n_pts), np.ones(n_pts)]).reshape(n_pts*2, 1)
  
 linear_combination= all_points*line_parameters 
