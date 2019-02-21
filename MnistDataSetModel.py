@@ -44,3 +44,24 @@ X_test = X_test/255
 num_pixels = 784
 X_train = X_train.reshape(X_train.shape[0], num_pixels)
 X_test = X_test.reshape(X_test.shape[0], num_pixels)
+
+
+def create_model():
+    model = Sequential()
+    model.add(Dense(10, input_dim=num_pixels,activation='relu'))
+    model.add(Dense(10, activation='relu'))
+    model.add(Dense(num_classes, activation='softmax'))
+    model.compile(Adam(lr=0.001),loss='categorical_crossentropy', metrics=['accuracy'])
+    return model
+
+model = create_model()
+print(model.summary())
+
+history = model.fit(X_train, y_train, validation_split=0.1, epochs=10, batch_size=200, verbose=1, shuffle=1)
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.legend(['loss,''val_loss'])
+plt.title('loss')
+plt.xlabel('epoch')
+plt.show()
